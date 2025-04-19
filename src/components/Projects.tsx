@@ -3,6 +3,9 @@
 import { useState } from "react";
 import ProjectCard from "./ProjectCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { motion } from "motion/react";
+import ScrollReveal from "./ScrollReveal";
+import { staggerContainer } from "@/lib/animations";
 
 // Project data
 const projects = [
@@ -74,77 +77,165 @@ export default function Projects() {
   return (
     <section id="projects" className="py-16 md:py-24 bg-muted/30">
       <div className="container px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">My Projects</h2>
-            <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed">
-              A collection of my recent work, showcasing my skills and expertise in web and mobile development.
-            </p>
+        <ScrollReveal direction="up">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+            <div className="space-y-2">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">My Projects</h2>
+              <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed">
+                A collection of my recent work, showcasing my skills and expertise in web and mobile development.
+              </p>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
         
-        <Tabs defaultValue="all" className="mx-auto mb-12" onValueChange={setActiveTab}>
-          <div className="flex justify-center mb-8">
-            <TabsList className="grid w-full max-w-md grid-cols-4 h-12 rounded-full p-1">
-              <TabsTrigger value="all" className="rounded-full">All</TabsTrigger>
-              <TabsTrigger value="web" className="rounded-full">Web</TabsTrigger>
-              <TabsTrigger value="mobile" className="rounded-full">Mobile</TabsTrigger>
-              <TabsTrigger value="tools" className="rounded-full">Tools</TabsTrigger>
-            </TabsList>
-          </div>
-          <TabsContent value="all" className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProjects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  title={project.title}
-                  role={project.role}
-                  description={project.description}
-                  technologies={project.technologies}
-                />
-              ))}
+        <ScrollReveal direction="up" delay={0.2}>
+          <Tabs defaultValue="all" className="mx-auto mb-12" onValueChange={setActiveTab}>
+            <div className="flex justify-center mb-8">
+              <TabsList className="grid w-full max-w-md grid-cols-4 h-12 rounded-full p-1">
+                <TabsTrigger value="all" className="rounded-full">All</TabsTrigger>
+                <TabsTrigger value="web" className="rounded-full">Web</TabsTrigger>
+                <TabsTrigger value="mobile" className="rounded-full">Mobile</TabsTrigger>
+                <TabsTrigger value="tools" className="rounded-full">Tools</TabsTrigger>
+              </TabsList>
             </div>
-          </TabsContent>
-          <TabsContent value="web" className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProjects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  title={project.title}
-                  role={project.role}
-                  description={project.description}
-                  technologies={project.technologies}
-                />
-              ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="mobile" className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProjects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  title={project.title}
-                  role={project.role}
-                  description={project.description}
-                  technologies={project.technologies}
-                />
-              ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="tools" className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProjects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  title={project.title}
-                  role={project.role}
-                  description={project.description}
-                  technologies={project.technologies}
-                />
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
+            <TabsContent value="all" className="space-y-8">
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                variants={staggerContainer(0.1, 0.2)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.25 }}
+              >
+                {filteredProjects.map((project, index) => (
+                  <motion.div
+                    key={project.id}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      show: { 
+                        opacity: 1, 
+                        y: 0,
+                        transition: {
+                          type: "spring",
+                          duration: 0.5,
+                          delay: index * 0.1
+                        }
+                      }
+                    }}
+                  >
+                    <ProjectCard
+                      title={project.title}
+                      role={project.role}
+                      description={project.description}
+                      technologies={project.technologies}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+            </TabsContent>
+            <TabsContent value="web" className="space-y-8">
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                variants={staggerContainer(0.1, 0.2)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.25 }}
+              >
+                {filteredProjects.map((project, index) => (
+                  <motion.div
+                    key={project.id}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      show: { 
+                        opacity: 1, 
+                        y: 0,
+                        transition: {
+                          type: "spring",
+                          duration: 0.5,
+                          delay: index * 0.1
+                        }
+                      }
+                    }}
+                  >
+                    <ProjectCard
+                      title={project.title}
+                      role={project.role}
+                      description={project.description}
+                      technologies={project.technologies}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+            </TabsContent>
+            <TabsContent value="mobile" className="space-y-8">
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                variants={staggerContainer(0.1, 0.2)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.25 }}
+              >
+                {filteredProjects.map((project, index) => (
+                  <motion.div
+                    key={project.id}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      show: { 
+                        opacity: 1, 
+                        y: 0,
+                        transition: {
+                          type: "spring",
+                          duration: 0.5,
+                          delay: index * 0.1
+                        }
+                      }
+                    }}
+                  >
+                    <ProjectCard
+                      title={project.title}
+                      role={project.role}
+                      description={project.description}
+                      technologies={project.technologies}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+            </TabsContent>
+            <TabsContent value="tools" className="space-y-8">
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                variants={staggerContainer(0.1, 0.2)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.25 }}
+              >
+                {filteredProjects.map((project, index) => (
+                  <motion.div
+                    key={project.id}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      show: { 
+                        opacity: 1, 
+                        y: 0,
+                        transition: {
+                          type: "spring",
+                          duration: 0.5,
+                          delay: index * 0.1
+                        }
+                      }
+                    }}
+                  >
+                    <ProjectCard
+                      title={project.title}
+                      role={project.role}
+                      description={project.description}
+                      technologies={project.technologies}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+            </TabsContent>
+          </Tabs>
+        </ScrollReveal>
       </div>
     </section>
   );
